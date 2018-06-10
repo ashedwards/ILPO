@@ -40,7 +40,7 @@ brew install mpich
 pip install mpi4py
 ```
 
-We made a [custom environment](https://github.com/ashedwards/ILPO/tree/master/gym-thor) based on the [AI2-Thor](https://ai2thor.allenai.org/) platflorm. You need to install it if you plan to use it for your own experiments:
+We made a [custom environment](https://github.com/ashedwards/ILPO/tree/master/environments/gym-thor) based on the [AI2-Thor](https://ai2thor.allenai.org/) platflorm. You need to install it if you plan to use it for your own experiments:
 
 ```Shell
 pip install -e environments/gym-thor
