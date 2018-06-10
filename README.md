@@ -154,7 +154,7 @@ This representation was borrowed from the pix2pix [implementation](https://githu
 You may also use your own data representation. In this case, you will need to modify the [load_examples](https://github.com/ashedwards/ILPO/blob/master/models/ilpo.py#L7) method in [models/vector_ilpo.py](https://github.com/ashedwards/ILPO/blob/master/models/vector_ilpo.py) or [models/image_ilpo.py](https://github.com/ashedwards/ILPO/blob/master/models/image_ilpo.py), or create your own class entirely. 
 
 ### Creating your own architecture 
-ILPO is not tied to one single architecture. Cartpole, for example, uses fully-connected layer to define the LPN, while Thor uses convnets. You can use the ones already defined for vectors or images in [models/vector_ilpo.py](https://github.com/ashedwards/ILPO/blob/master/models/vector_ilpo.py) and [models/image_ilpo.py](https://github.com/ashedwards/ILPO/blob/master/models/image_ilpo.py), respectively, or you can create your own by inheriting from models/ilpo.py. You will need to implement the following methods:
+ILPO is not tied to one single architecture. Cartpole, for example, uses fully-connected layer to define the LPN, while Thor uses convnets. You can use the ones already defined for vectors or images in [models/vector_ilpo.py](https://github.com/ashedwards/ILPO/blob/master/models/vector_ilpo.py) and [models/image_ilpo.py](https://github.com/ashedwards/ILPO/blob/master/models/image_ilpo.py), respectively, or you can create your own by inheriting from [models/ilpo.py](https://github.com/ashedwards/ILPO/blob/master/models/ilpo.py). You will need to implement the following methods:
 
 [create_encoder](https://github.com/ashedwards/ILPO/blob/master/models/ilpo.py#L12) creates an encoding of the state
 
