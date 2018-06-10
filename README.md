@@ -2,7 +2,7 @@
 Ashley D. Edwards, Himanshu Sahni, Yannick Schroecker, Charles L. Isbell</br>
 Georgia Institute of Technology
 
-<img src="https://github.gatech.edu/ashedwards/ILPO/blob/master/resources/network.png" width="600">
+<img src="https://github.com/ashedwards/ILPO/blob/master/resources/network.png" width="600">
 
 ## Abstract
 We describe a novel approach to imitation learning that infers latent policies directly from state observations. We introduce a method that characterizes the causal effects of unknown actions on observations while simultaneously predicting their likelihood. We then outline an action alignment procedure that leverages a small amount of environment interactions to determine a mapping between latent and real-world actions. We show that this corrected labeling can be used for imitating the observed behavior, even though no expert actions are given. We evaluate our approach within classic control and photo-realistic visual environments and demonstrate that it performs well when compared to standard approaches.
@@ -26,7 +26,7 @@ This implementation has been tested with Python 3.5 on OS X High Sierra and Ubun
 
 ```Shell
 # 1) Clone repository 
-git clone https://github.gatech.edu/ashedwards/ILPO.git
+git clone https://github.com/ashedwards/ILPO.git
 cd action_observation_network 
 
 # 2) Install requirements
@@ -40,7 +40,7 @@ brew install mpich
 pip install mpi4py
 ```
 
-We made a [custom environment](https://github.gatech.edu/ashedwards/ILPO/tree/master/gym-thor) based on the [AI2-Thor](https://ai2thor.allenai.org/) platflorm. You need to install it if you plan to use it for your own experiments:
+We made a [custom environment](https://github.com/ashedwards/ILPO/tree/master/gym-thor) based on the [AI2-Thor](https://ai2thor.allenai.org/) platflorm. You need to install it if you plan to use it for your own experiments:
 
 ```Shell
 pip install -e environments/gym-thor
@@ -57,14 +57,14 @@ python train_expert/train_cartpole.py
 python train_expert/enjoy_cartpole.py
 ```
 
-Once done running, the expert policy from step 1 is written to [final_models/cartpole.pkl](https://github.gatech.edu/aedwards8/action_observation_network/tree/master/final_models/cartpole). Then, step 2 loads and runs the policy and saves the observed states to [final_models/acrobot/cartpole.txt](https://github.gatech.edu/aedwards8/action_observation_network/blob/master/final_models/cartpole/cartpole.txt). 
+Once done running, the expert policy from step 1 is written to [final_models/cartpole.pkl](https://github.com/ashedwards/ILPO/tree/master/final_models/cartpole). Then, step 2 loads and runs the policy and saves the observed states to [final_models/acrobot/cartpole.txt](https://github.com/ashedwards/ILPO/blob/master/final_models/cartpole/cartpole.txt). 
 
-The code for collecting data can be found in [train_expert](https://github.gatech.edu/aedwards8/action_observation_network/tree/master/train_expert).
+The code for collecting data can be found in [train_expert](https://github.com/ashedwards/ILPO/tree/master/train_expert).
 
-All data for cartpole and acrobot is already saved in [final_models](https://github.gatech.edu/aedwards8/action_observation_network/blob/master/final_models/cartpole/cartpole.txt). The files for AI2-Thor were too big to include here, so you will need to follow the above steps to obtain the expert data.
+All data for cartpole and acrobot is already saved in [final_models](https://github.com/ashedwards/ILPO/blob/master/final_models/cartpole/cartpole.txt). The files for AI2-Thor were too big to include here, so you will need to follow the above steps to obtain the expert data.
 
 ## Training ILPO
-After collecting the expert state observations, you can then train ILPO. Check out the [scripts](https://github.gatech.edu/aedwards8/action_observation_network/tree/master/scripts) directory to view all of the training scripts. Let's again see how to run cartpole: 
+After collecting the expert state observations, you can then train ILPO. Check out the [scripts](https://github.com/ashedwards/ILPO/tree/master/scripts) directory to view all of the training scripts. Let's again see how to run cartpole: 
 
 ```Shell
 # 1) Train latent policy network
@@ -74,7 +74,7 @@ After collecting the expert state observations, you can then train ILPO. Check o
 ./scripts/run_vector_policy_cartpole.sh
 ```
 
-The first step learns the latent policy network. You'll notice a few necessary arguments in the [script](https://github.gatech.edu/aedwards8/action_observation_network/blob/master/scripts/run_vector_ilpo_cartpole.sh):
+The first step learns the latent policy network. You'll notice a few necessary arguments in the [script](https://github.com/ashedwards/ILPO/blob/master/scripts/run_vector_ilpo_cartpole.sh):
 
     --mode whether training or testing. This should always be train for training LPN
     --input_dir location of state trajectories 
@@ -90,7 +90,7 @@ You can view the results in "output_dir", in this case, "cartpole_ilpo", in tens
 tensorboard --logdir cartpole_ilpo
 ```
 
-The second step learns the action remapping network after loading in the LPN model from "output_dir". Let's look at the arguments from the training [script](https://github.gatech.edu/aedwards8/action_observation_network/blob/master/scripts/run_vector_policy_acrobot.sh):
+The second step learns the action remapping network after loading in the LPN model from "output_dir". Let's look at the arguments from the training [script](https://github.com/ashedwards/ILPO/blob/master/scripts/run_vector_policy_acrobot.sh):
 
     --mode whether training or testing. This should always be test for training ARN
     --n_actions number of latent actions being learned
@@ -104,7 +104,7 @@ The second step learns the action remapping network after loading in the LPN mod
 
 We differentiate latent from real actions in case we want to learn more latent causes than actions. This would allow the network to learn difficult transitions such as bumping into walls. 
 
-The experiments are saved into the directory specified in "exp_dir". Each experiment is saved as a .csv file. You can plot these results using the [results/plot_results.py](https://github.gatech.edu/aedwards8/action_observation_network/blob/master/results/plot_results.py) script:
+The experiments are saved into the directory specified in "exp_dir". Each experiment is saved as a .csv file. You can plot these results using the [results/plot_results.py](https://github.com/ashedwards/ILPO/blob/master/results/plot_results.py) script:
 
 ```Shell
 # 1) Plot results
@@ -130,16 +130,16 @@ We compared against behavioral cloning in or work. Here are the steps for cartpo
 ```
 
 ## Running your own data and architectures
-We have two different data representations in this code, one for states that are represented through vectors (like cartpole), which can be found in [models/vector_ilpo.py](https://github.gatech.edu/aedwards8/action_observation_network/blob/master/models/vector_ilpo.py), and one for images (like AI2-Thor), found in [models/image_ilpo.py](https://github.gatech.edu/aedwards8/action_observation_network/blob/master/models/image_ilpo.py). 
+We have two different data representations in this code, one for states that are represented through vectors (like cartpole), which can be found in [models/vector_ilpo.py](https://github.com/ashedwards/ILPO/blob/master/models/vector_ilpo.py), and one for images (like AI2-Thor), found in [models/image_ilpo.py](https://github.com/ashedwards/ILPO/blob/master/models/image_ilpo.py). 
 
 ### Using your own vector data 
 The vector representation expects trajectories to be in a text file of the form:
 
     [state] [next_state]
             
-Each line in the file represents an observation. This demonstration must be in a folder that consists only of demonstrations of this form, as all of the contents of the directory will be parsed. See [final_models](https://github.gatech.edu/aedwards8/action_observation_network/tree/master/final_models) for examples. 
+Each line in the file represents an observation. This demonstration must be in a folder that consists only of demonstrations of this form, as all of the contents of the directory will be parsed. See [final_models](https://github.com/ashedwards/ILPO/tree/master/final_models) for examples. 
 
-Once done, you can just copy one of the [scripts](https://github.gatech.edu/aedwards8/action_observation_network/tree/master/scripts) and modify it to use your own directory and arguments. 
+Once done, you can just copy one of the [scripts](https://github.com/ashedwards/ILPO/tree/master/scripts) and modify it to use your own directory and arguments. 
 
 ### Using your own image data
 The image representation expects trajectories to be in an image file of the form:
@@ -151,19 +151,19 @@ where [A] is an image of the state and [B] is an image of the next state. These 
 This representation was borrowed from the pix2pix [implementation](https://github.com/affinelayer/pix2pix-tensorflow). So you could also try out the datasets from that code. While those are not RL demonstrations, LPN could potentially be used for learning multimodal outputs from static datasets. 
 
 ### Using different data representations 
-You may also use your own data representation. In this case, you will need to modify the [load_examples](https://github.gatech.edu/aedwards8/action_observation_network/blob/master/models/ilpo.py#L7) method in [models/vector_ilpo.py](https://github.gatech.edu/aedwards8/action_observation_network/blob/master/models/vector_ilpo.py) or [models/image_ilpo.py](https://github.gatech.edu/aedwards8/action_observation_network/blob/master/models/image_ilpo.py), or create your own class entirely. 
+You may also use your own data representation. In this case, you will need to modify the [load_examples](https://github.com/ashedwards/ILPO/blob/master/models/ilpo.py#L7) method in [models/vector_ilpo.py](https://github.com/ashedwards/ILPO/blob/master/models/vector_ilpo.py) or [models/image_ilpo.py](https://github.com/ashedwards/ILPO/blob/master/models/image_ilpo.py), or create your own class entirely. 
 
 ### Creating your own architecture 
-ILPO is not tied to one single architecture. Cartpole, for example, uses fully-connected layer to define the LPN, while Thor uses convnets. You can use the ones already defined for vectors or images in [models/vector_ilpo.py](https://github.gatech.edu/aedwards8/action_observation_network/blob/master/models/vector_ilpo.py) and [models/image_ilpo.py](https://github.gatech.edu/aedwards8/action_observation_network/blob/master/models/image_ilpo.py), respectively, or you can create your own by inheriting from models/ilpo.py. You will need to implement the following methods:
+ILPO is not tied to one single architecture. Cartpole, for example, uses fully-connected layer to define the LPN, while Thor uses convnets. You can use the ones already defined for vectors or images in [models/vector_ilpo.py](https://github.com/ashedwards/ILPO/blob/master/models/vector_ilpo.py) and [models/image_ilpo.py](https://github.com/ashedwards/ILPO/blob/master/models/image_ilpo.py), respectively, or you can create your own by inheriting from models/ilpo.py. You will need to implement the following methods:
 
-[create_encoder](https://github.gatech.edu/aedwards8/action_observation_network/blob/master/models/ilpo.py#L12) creates an encoding of the state
+[create_encoder](https://github.com/ashedwards/ILPO/blob/master/models/ilpo.py#L12) creates an encoding of the state
 
-[create_generator](https://github.gatech.edu/aedwards8/action_observation_network/blob/master/models/ilpo.py#L17) creates a generator for making next state predictions
+[create_generator](https://github.com/ashedwards/ILPO/blob/master/models/ilpo.py#L17) creates a generator for making next state predictions
 
-[train_examples](https://github.gatech.edu/aedwards8/action_observation_network/blob/master/models/ilpo.py#L22) trains the model 
+[train_examples](https://github.com/ashedwards/ILPO/blob/master/models/ilpo.py#L22) trains the model 
 
-[process_inputs](https://github.gatech.edu/aedwards8/action_observation_network/blob/master/models/ilpo.py#L27) processes the inputs used for the ILPO policy
+[process_inputs](https://github.com/ashedwards/ILPO/blob/master/models/ilpo.py#L27) processes the inputs used for the ILPO policy
 
-You will also need to create custom scripts for running the policies. You can simply clone [models/vector_policy.py](https://github.gatech.edu/aedwards8/action_observation_network/blob/master/models/vector_policy.py) or [models/image_policy.py](https://github.gatech.edu/aedwards8/action_observation_network/blob/master/models/image_policy.py) if you're using images, and modify the Policy class to inherit from your custom class. 
+You will also need to create custom scripts for running the policies. You can simply clone [models/vector_policy.py](https://github.com/ashedwards/ILPO/blob/master/models/vector_policy.py) or [models/image_policy.py](https://github.com/ashedwards/ILPO/blob/master/models/image_policy.py) if you're using images, and modify the Policy class to inherit from your custom class. 
 
 
