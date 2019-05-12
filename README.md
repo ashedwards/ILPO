@@ -17,7 +17,7 @@ If you use any of the code here in your own work, you may cite:
     }
     
 ## Getting started
-This is the official implementation of the work [Imitating Latent Policies from Observation](https://arxiv.org/abs/1805.07914). This approach aims to learn policies directly from state observations by utilizing two key components 1) a Latent Policy Network (LPN) that utilizes a multimodal forward dynamics network to learn priors over latent actions and 2) an Action Remapping Network (ARN) that leverages environment interactions to map the latent actions to real ones, as summarized in Figure 1. 
+This is the official ICML implementation of the work [Imitating Latent Policies from Observation](https://arxiv.org/abs/1805.07914). This approach aims to learn policies directly from state observations by utilizing two key components 1) a Latent Policy Network (LPN) that utilizes a multimodal forward dynamics network to learn priors over latent actions and 2) an Action Remapping Network (ARN) that leverages environment interactions to map the latent actions to real ones, as summarized in Figure 1. 
 
 Note: This is research code and we not currently plan to maintain it. 
 
@@ -38,12 +38,6 @@ If you have trouble installing baselines on OS X, try running the following comm
 ```Shell
 brew install mpich
 pip install mpi4py
-```
-
-We made a [custom environment](https://github.com/ashedwards/ILPO/tree/master/environments/gym-thor) based on the [AI2-Thor](https://ai2thor.allenai.org/) platflorm. You need to install it if you plan to use it for your own experiments:
-
-```Shell
-pip install -e environments/gym-thor
 ```
 
 ## Collecting expert data 
@@ -130,7 +124,7 @@ We compared against behavioral cloning in or work. Here are the steps for cartpo
 ```
 
 ## Running your own data and architectures
-We have two different data representations in this code, one for states that are represented through vectors (like cartpole), which can be found in [models/vector_ilpo.py](https://github.com/ashedwards/ILPO/blob/master/models/vector_ilpo.py), and one for images (like AI2-Thor), found in [models/image_ilpo.py](https://github.com/ashedwards/ILPO/blob/master/models/image_ilpo.py). 
+We have two different data representations in this code, one for states that are represented through vectors (like cartpole), which can be found in [models/vector_ilpo.py](https://github.com/ashedwards/ILPO/blob/master/models/vector_ilpo.py), and one for images (like CoinRun), found in [models/image_ilpo.py](https://github.com/ashedwards/ILPO/blob/master/models/image_ilpo.py). 
 
 ### Using your own vector data 
 The vector representation expects trajectories to be in a text file of the form:
