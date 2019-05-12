@@ -1,6 +1,5 @@
 numpy==1.14.3
 setuptools==36.4.0
-ai2thor==0.0.26
 tensorflow==1.6.0
 gym==0.10.5
 baselines==0.1.5
