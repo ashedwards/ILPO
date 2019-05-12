@@ -1,5 +1,5 @@
 """ILPO network for images."""
-from ilpo import ILPO
+from bco import BCO
 from utils import *
 import sys
 sys.path.append(".")
@@ -8,7 +8,7 @@ import environments
 CROP_SIZE = 128
 
 
-class ImageILPO(ILPO):
+class ImageBCO(BCO):
     def process_inputs(self, inputs):
         inputs = inputs / 255.
         inputs = tf.image.resize_images(inputs, [CROP_SIZE, CROP_SIZE])
@@ -81,11 +81,12 @@ class ImageILPO(ILPO):
         with tf.name_scope("target_images"):
             target_images = transform(targets)
 
-        paths_batch, inputs_batch, targets_batch = tf.train.batch(
+        paths_batch, inputs_batch, targets_batch = tf.train.shuffle_batch(
             [paths, input_images, target_images],
             batch_size=args.batch_size,
             num_threads=1,
-            capacity=500000)
+            capacity=500000,
+            min_after_dequeue=1000)
 
         steps_per_epoch = int(math.ceil(len(input_paths) / args.batch_size))
 
@@ -109,11 +110,11 @@ class ImageILPO(ILPO):
 
         layer_specs = [
             args.ngf * 2, # encoder_2: [batch, 128, 128, ngf] => [batch, 64, 64, ngf * 2]
-            args.ngf * 4, # encoder_3: [batch, 64, 64, ngf * 2] => [batch, 32, 32, ngf * 4]
-            args.ngf * 8, # encoder_4: [batch, 32, 32, ngf * 4] => [batch, 16, 16, ngf * 8]
-            args.ngf * 8, # encoder_5: [batch, 16, 16, ngf * 8] => [batch, 8, 8, ngf * 8]
-            args.ngf * 8, # encoder_6: [batch, 8, 8, ngf * 8] => [batch, 4, 4, ngf * 8]
-            args.ngf * 8, # encoder_7: [batch, 4, 4, ngf * 8] => [batch, 2, 2, ngf * 8]
+          #  args.ngf * 4, # encoder_3: [batch, 64, 64, ngf * 2] => [batch, 32, 32, ngf * 4]
+          #  args.ngf * 8, # encoder_4: [batch, 32, 32, ngf * 4] => [batch, 16, 16, ngf * 8]
+          #  args.ngf * 8, # encoder_5: [batch, 16, 16, ngf * 8] => [batch, 8, 8, ngf * 8]
+           # args.ngf * 8, # encoder_6: [batch, 8, 8, ngf * 8] => [batch, 4, 4, ngf * 8]
+          #  args.ngf * 8, # encoder_7: [batch, 4, 4, ngf * 8] => [batch, 2, 2, ngf * 8]
         ]
 
         for out_channels in layer_specs:
@@ -147,7 +148,7 @@ class ImageILPO(ILPO):
                     # since it is directly connected to the skip_layer
                     input = s_t_layers[-1]
                 else:
-                    input = tf.concat([s_t_layers[-1], s_t_layers[skip_layer]], axis=3)
+                    input = tf.concat([s_t_layers[-1], s_t_layers[skip_layer]], axis=-1)
 
                 rectified = lrelu(input, .2)
                 # [batch, in_height, in_width, in_channels] => [batch, in_height*2, in_width*2, out_channels]
@@ -157,7 +158,7 @@ class ImageILPO(ILPO):
 
         # decoder_1: [batch, 128, 128, ngf * 2] => [batch, 256, 256, generator_outputs_channels]
         with tf.variable_scope("decoder_1"):
-            input = tf.concat([s_t_layers[-1], s_t_layers[0]], axis=3)
+            input = tf.concat([s_t_layers[-1], s_t_layers[0]], axis=-1)
             rectified = lrelu(input, .2)
             output = deconv(rectified, generator_outputs_channels)
             s_t_layers.append(output)
@@ -238,10 +239,9 @@ class ImageILPO(ILPO):
 
         logdir = args.output_dir if (args.trace_freq > 0 or args.summary_freq > 0) else None
         sv = tf.train.Supervisor(logdir=logdir, save_summaries_secs=0, saver=None)
-        config = tf.ConfigProto()
-        config.gpu_options.allow_growth = True
+        gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=.25)
 
-        with sv.managed_session(config=config) as sess:
+        with sv.managed_session(config=tf.ConfigProto(gpu_options=gpu_options)) as sess:
             print("parameter_count =", sess.run(parameter_count))
 
             if args.checkpoint is not None:

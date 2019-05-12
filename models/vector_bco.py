@@ -1,8 +1,8 @@
 """ILPO network for vectors."""
-from ilpo import ILPO
+from bco import BCO
 from utils import *
 
-class VectorILPO(ILPO):
+class VectorBCO(BCO):
     def process_inputs(self, inputs):
         return inputs
 
@@ -135,11 +135,7 @@ class VectorILPO(ILPO):
         sv = tf.train.Supervisor(logdir=logdir, save_summaries_secs=0, saver=None)
         gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=.2)
 
-
-        config = tf.ConfigProto()
-        config.gpu_options.allow_growth = True
-
-        with sv.managed_session(config=config) as sess:
+        with sv.managed_session(config=tf.ConfigProto(gpu_options=gpu_options)) as sess:
             print("parameter_count =", sess.run(parameter_count))
 
             if args.checkpoint is not None:

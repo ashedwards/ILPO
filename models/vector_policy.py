@@ -5,6 +5,7 @@ from collections import deque
 import gym
 import cv2
 import os
+import random
 
 sess = tf.Session()
 
@@ -99,7 +100,7 @@ class Policy(VectorILPO):
             prediction = lrelu(fully_connected(fake_state_action, 64), .2)
             prediction = lrelu(fully_connected(prediction, 32), .2)
             prediction = fully_connected(prediction, args.real_actions)
-            loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(labels=real_action_one_hot, logits=prediction))
+            loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=real_action_one_hot, logits=prediction))
 
             return tf.nn.softmax(prediction), loss
 
@@ -122,7 +123,6 @@ class Policy(VectorILPO):
 
     def eval_policy(self, game, t):
         """Evaluate the policy."""
-
         terminal = False
         total_reward = 0
         obs = game.reset()
@@ -138,10 +138,12 @@ class Policy(VectorILPO):
         else:
             self.exp_writer.write(str(t) + "," + str(total_reward) + "\n")
 
-    def run_policy(self):
+    def run_policy(self, seed):
         """Run the policy."""
 
         game = gym.make(args.env)
+        game.seed(seed)
+
         obs = game.reset()
 
         terminal = False
@@ -191,15 +193,21 @@ class Policy(VectorILPO):
 if not os.path.exists(args.exp_dir):
     os.makedirs(args.exp_dir)
 
-for exp in range(0, 100):
+for exp in range(0, 50):
+    config = tf.ConfigProto()
+    config.gpu_options.allow_growth = True
     print("Running experiment", exp)
-
     tf.reset_default_graph()
     exp_writer = open(args.exp_dir + "/" + str(exp) + ".csv", "w")
-    sess = tf.Session(config=tf.ConfigProto())
+
+    sess = tf.Session(config=config)
+
+    np.random.seed(exp)
+    tf.set_random_seed(exp)
+    random.seed(exp)
 
     with sess.as_default():
         ilpo = Policy(sess=sess, shape=[None, args.n_dims], use_encoding=False, verbose=False, experiment=True, exp_writer=exp_writer)
-        ilpo.run_policy()
+        ilpo.run_policy(seed=exp)
         exp_writer.close()
 
