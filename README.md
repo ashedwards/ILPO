@@ -55,7 +55,7 @@ Once done running, the expert policy from step 1 is written to [final_models/car
 
 The code for collecting data can be found in [train_expert](https://github.com/ashedwards/ILPO/tree/master/train_expert).
 
-All data for cartpole and acrobot is already saved in [final_models](https://github.com/ashedwards/ILPO/blob/master/final_models/cartpole/cartpole.txt). The files for AI2-Thor were too big to include here, so you will need to follow the above steps to obtain the expert data.
+All data for cartpole and acrobot is already saved in [final_models](https://github.com/ashedwards/ILPO/blob/master/final_models/cartpole/cartpole.txt). 
 
 ## Training ILPO
 After collecting the expert state observations, you can then train ILPO. Check out the [scripts](https://github.com/ashedwards/ILPO/tree/master/scripts) directory to view all of the training scripts. Let's again see how to run cartpole: 
@@ -140,7 +140,7 @@ The image representation expects trajectories to be in an image file of the form
 
     [[A][B]]
         
-where [A] is an image of the state and [B] is an image of the next state. These images are concatenated together side by side to form a single image. This demonstration must also be in a folder that consists only of demonstrations of this form. We do not have any examples for this, but it will automatically be created if you create expert data for AI2-Thor. 
+where [A] is an image of the state and [B] is an image of the next state. These images are concatenated together side by side to form a single image. This demonstration must also be in a folder that consists only of demonstrations of this form. 
 
 This representation was borrowed from the pix2pix [implementation](https://github.com/affinelayer/pix2pix-tensorflow). So you could also try out the datasets from that code. While those are not RL demonstrations, LPN could potentially be used for learning multimodal outputs from static datasets. 
 
@@ -148,7 +148,7 @@ This representation was borrowed from the pix2pix [implementation](https://githu
 You may also use your own data representation. In this case, you will need to modify the [load_examples](https://github.com/ashedwards/ILPO/blob/master/models/ilpo.py#L7) method in [models/vector_ilpo.py](https://github.com/ashedwards/ILPO/blob/master/models/vector_ilpo.py) or [models/image_ilpo.py](https://github.com/ashedwards/ILPO/blob/master/models/image_ilpo.py), or create your own class entirely. 
 
 ### Creating your own architecture 
-ILPO is not tied to one single architecture. Cartpole, for example, uses fully-connected layer to define the LPN, while Thor uses convnets. You can use the ones already defined for vectors or images in [models/vector_ilpo.py](https://github.com/ashedwards/ILPO/blob/master/models/vector_ilpo.py) and [models/image_ilpo.py](https://github.com/ashedwards/ILPO/blob/master/models/image_ilpo.py), respectively, or you can create your own by inheriting from [models/ilpo.py](https://github.com/ashedwards/ILPO/blob/master/models/ilpo.py). You will need to implement the following methods:
+ILPO is not tied to one single architecture. Cartpole, for example, uses fully-connected layer to define the LPN, while image data uses convnets. You can use the ones already defined for vectors or images in [models/vector_ilpo.py](https://github.com/ashedwards/ILPO/blob/master/models/vector_ilpo.py) and [models/image_ilpo.py](https://github.com/ashedwards/ILPO/blob/master/models/image_ilpo.py), respectively, or you can create your own by inheriting from [models/ilpo.py](https://github.com/ashedwards/ILPO/blob/master/models/ilpo.py). You will need to implement the following methods:
 
 [create_encoder](https://github.com/ashedwards/ILPO/blob/master/models/ilpo.py#L12) creates an encoding of the state
 
