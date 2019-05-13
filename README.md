@@ -27,7 +27,7 @@ This implementation has been tested with Python 3.5 on OS X High Sierra and Ubun
 ```Shell
 # 1) Clone repository 
 git clone https://github.com/ashedwards/ILPO.git
-cd action_observation_network 
+cd ILPO
 
 # 2) Install requirements
 pip install -r requirements.txt
